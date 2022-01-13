@@ -1,38 +1,55 @@
-import { Button, Stack } from "react-bootstrap"
-import Container from "react-bootstrap/Container"
-import AddBudgetModal from "./components/AddBudgetModal"
-import AddExpenseModal from "./components/AddExpenseModal"
-import ViewExpensesModal from "./components/ViewExpensesModal"
-import BudgetCard from "./components/BudgetCard"
-import UncategorizedBudgetCard from "./components/UncategorizedBudgetCard"
-import TotalBudgetCard from "./components/TotalBudgetCard"
-import { useState } from "react"
-import { UNCATEGORIZED_BUDGET_ID, useBudgets } from "./contexts/BudgetsContext"
+import { Button, Stack } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import AddBudgetModal from "./components/AddBudgetModal";
+import AddExpenseModal from "./components/AddExpenseModal";
+import ViewExpensesModal from "./components/ViewExpensesModal";
+import BudgetCard from "./components/BudgetCard";
+import UncategorizedBudgetCard from "./components/UncategorizedBudgetCard";
+import TotalBudgetCard from "./components/TotalBudgetCard";
+import { useState } from "react";
+import { UNCATEGORIZED_BUDGET_ID, useBudgets } from "./contexts/BudgetsContext";
 
 function App() {
-  const [showAddBudgetModal, setShowAddBudgetModal] = useState(false)
-  const [showAddExpenseModal, setShowAddExpenseModal] = useState(false)
-  const [viewExpensesModalBudgetId, setViewExpensesModalBudgetId] = useState()
-  const [addExpenseModalBudgetId, setAddExpenseModalBudgetId] = useState()
-  const { budgets, getBudgetExpenses } = useBudgets()
+  const [showAddBudgetModal, setShowAddBudgetModal] = useState(false);
+  const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
+  const [viewExpensesModalBudgetId, setViewExpensesModalBudgetId] = useState();
+  const [addExpenseModalBudgetId, setAddExpenseModalBudgetId] = useState();
+  const { budgets, getBudgetExpenses } = useBudgets();
 
   function openAddExpenseModal(budgetId) {
-    setShowAddExpenseModal(true)
-    setAddExpenseModalBudgetId(budgetId)
+    setShowAddExpenseModal(true);
+    setAddExpenseModalBudgetId(budgetId);
   }
 
   return (
-    <>
+    <div>
       <Container className="my-4">
-        <Stack direction="horizontal" gap="2" className="mb-4">
-          <h1 className="me-auto">Budgets</h1>
-          <Button variant="primary" onClick={() => setShowAddBudgetModal(true)}>
+        <h1 className="me-auto">Budget Tracker</h1>
+        <br />
+        <Stack
+          direction="horizontal"
+          gap="2"
+          className="mb-4"
+          style={{ float: "right" }}
+        >
+          <Button
+            variant="outline-primary"
+            onClick={() => setShowAddBudgetModal(true)}
+            style={{ borderRadius: "50px" }}
+          >
             Add Budget
           </Button>
-          <Button variant="outline-primary" onClick={openAddExpenseModal}>
+          <Button
+            variant="outline-success"
+            onClick={openAddExpenseModal}
+            style={{ borderRadius: "50px" }}
+          >
             Add Expense
           </Button>
         </Stack>
+        <br />
+        <br />
+        <br />
         <div
           style={{
             display: "grid",
@@ -41,11 +58,11 @@ function App() {
             alignItems: "flex-start",
           }}
         >
-          {budgets.map(budget => {
+          {budgets.map((budget) => {
             const amount = getBudgetExpenses(budget.id).reduce(
               (total, expense) => total + expense.amount,
               0
-            )
+            );
             return (
               <BudgetCard
                 key={budget.id}
@@ -57,7 +74,7 @@ function App() {
                   setViewExpensesModalBudgetId(budget.id)
                 }
               />
-            )
+            );
           })}
           <UncategorizedBudgetCard
             onAddExpenseClick={openAddExpenseModal}
@@ -81,8 +98,8 @@ function App() {
         budgetId={viewExpensesModalBudgetId}
         handleClose={() => setViewExpensesModalBudgetId()}
       />
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
