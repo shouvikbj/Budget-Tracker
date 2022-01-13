@@ -24,7 +24,7 @@ function App() {
   return (
     <div>
       <Container className="my-4">
-        <h1 className="me-auto">Budget Tracker</h1>
+        <h1 className="me-auto text-primary">Budget Tracker</h1>
         <br />
         <Stack
           direction="horizontal"
